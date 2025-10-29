@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DawlessGPTv6 Plan Schema",
+  "type": "object",
+  "properties": {
+    "seed": { "type": "integer" },
+    "style": { "type": "string" },
+    "bpm": { "type": "number" },
+    "time_signature": { "type": "string", "pattern": "^[0-9]+/[0-9]+$" },
+    "length_bars": { "type": "integer", "minimum": 1 },
+    "structure": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "bars": { "type": "integer", "minimum": 1 }
+        },
+        "required": ["name", "bars"]
+      }
+    },
+    "root_midi": { "type": "integer", "minimum": 0, "maximum": 127 },
+    "scale": { "type": "string" },
+    "mode": { "type": "string" },
+    "progression": {
+      "type": "array",
+      "items": { "type": "integer" }
+    },
+    "arp_rules": {
+      "type": "object",
+      "properties": {
+        "range": { "type": "integer", "minimum": 1 },
+        "direction": { "type": "string", "enum": ["up", "down", "updown"] },
+        "gate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "tracks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "instrument_type": { "type": "string", "enum": ["pad", "lead", "bass", "drums", "fx"] },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": { "type": "number" },
+                "note": { "type": "integer" },
+                "velocity": { "type": "number" },
+                "duration": { "type": "number" }
+              },
+              "required": ["time", "note", "duration"]
+            }
+          },
+          "adsr": {
+            "type": "object",
+            "properties": {
+              "attack": { "type": "number" },
+              "decay": { "type": "number" },
+              "sustain": { "type": "number" },
+              "release": { "type": "number" }
+            }
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "cutoff": { "type": "number" },
+              "resonance": { "type": "number" }
+            }
+          }
+        },
+        "required": ["instrument_type"]
+      }
+    },
+    "drums": {
+      "type": "object",
+      "properties": {
+        "kick": { "type": "array", "items": { "type": "integer" } },
+        "snare": { "type": "array", "items": { "type": "integer" } },
+        "hats": { "type": "array", "items": { "type": "integer" } }
+      }
+    },
+    "automations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "target": { "type": "string" },
+          "curve": { "type": "string" },
+          "values": { "type": "array", "items": { "type": "number" } }
+        }
+      }
+    },
+    "fx_routing": {
+      "type": "object",
+      "properties": {
+        "reverb_send": { "type": "number" },
+        "delay_send": { "type": "number" },
+        "feedback": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "mix": {
+      "type": "object",
+      "properties": {
+        "gains": { "type": "array", "items": { "type": "number" } },
+        "pan": { "type": "array", "items": { "type": "number" } },
+        "width": { "type": "array", "items": { "type": "number" } }
+      }
+    },
+    "master": {
+      "type": "object",
+      "properties": {
+        "hpf": { "type": "number" },
+        "lpf": { "type": "number" },
+        "limiter": { "type": "boolean" },
+        "dither": { "type": "boolean" }
+      }
+    },
+    "quality": {
+      "type": "string",
+      "enum": ["fast", "hq", "ultra"]
+    }
+  },
+  "required": ["seed", "bpm", "time_signature", "length_bars", "tracks", "quality"]
+}

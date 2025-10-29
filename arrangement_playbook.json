@@ -1,0 +1,37 @@
+{
+  "macros": [
+    {
+      "name": "build",
+      "description": "Increase energy before the drop",
+      "automations": [
+        {"parameter": "filter_cutoff", "curve": "exp", "amount": 1.0},
+        {"parameter": "reverb_send", "curve": "linear", "amount": 0.5},
+        {"parameter": "delay_feedback", "curve": "linear", "amount": 0.3},
+        {"parameter": "width", "curve": "linear", "amount": 0.5}
+      ]
+    },
+    {
+      "name": "pre_drop",
+      "description": "Create a small pause or fill before the drop",
+      "automations": [
+        {"parameter": "volume", "curve": "linear", "amount": -1.0}
+      ]
+    },
+    {
+      "name": "drop",
+      "description": "Activate sidechain and open low‑pass filter quickly",
+      "automations": [
+        {"parameter": "sidechain", "curve": "step", "amount": 1.0},
+        {"parameter": "lp_open", "curve": "exp", "amount": 1.0},
+        {"parameter": "reverb_send", "curve": "linear", "amount": -0.5}
+      ]
+    },
+    {
+      "name": "post_drop",
+      "description": "Add subtle filter movement after the drop",
+      "automations": [
+        {"parameter": "filter_cutoff", "curve": "sin", "amount": 0.2}
+      ]
+    }
+  ]
+}

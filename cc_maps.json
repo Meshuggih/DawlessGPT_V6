@@ -1,0 +1,7 @@
+{
+  "schema": {
+    "description": "Mapping definitions for CC and NRPN messages",
+    "fields": ["cc", "nrpn", "parameter", "range", "default"]
+  },
+  "machines": []
+}

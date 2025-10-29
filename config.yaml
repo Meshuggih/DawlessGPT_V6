@@ -1,0 +1,32 @@
+---
+# Immutable rails for DawlessGPTv6.  These parameters define the default
+# conditions under which audio is rendered.  Changing them can break
+# compatibility with the LLM expectations.
+
+sample_rate: 48000      # Hz
+bit_depth: 24           # bits per sample
+headroom_db: -12        # target headroom before limiting
+target_peak_db: -1      # maximum allowed peak level
+dither_type: tpdf       # dithering algorithm (triangular probability density)
+bass_mono_freq: 120     # Hz; below this frequency, the mix is summed to mono
+feedback_max: 0.45      # maximum allowed delay feedback
+lp_post_reverb_hz: 8000 # Hz; low‑pass filter after reverb
+smoothing_ms: 6         # ms; parameter smoothing for ZDF filters and automations
+
+# Allowed bar lengths for phrase lengths.  Sequencers may choose among these.
+phrasing: [8, 16, 32]
+
+# Quality presets controlling maximum reverb time and smoothing.
+quality:
+  fast:
+    t60_s: 1.8
+    smoothing_ms: 3
+  hq:
+    t60_s: 2.6
+    smoothing_ms: 6
+  ultra:
+    t60_s: 3.2
+    smoothing_ms: 10
+
+# Global timeout guard in seconds for long computations.
+timeout_guard_s: 60
